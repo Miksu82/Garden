@@ -1,7 +1,7 @@
 #include "MoistureSensor.h"
 
 #define DELAY 100
-#define DEBUG 1
+//#define DEBUG 0
 
 MoistureSensor::MoistureSensor(int pin1, int pin2, int sensorPin, int calibrationConstant, float probeDistance, float soilConductivity, int moisture) {
 	_pin1 = pin1;
@@ -23,8 +23,6 @@ MoistureSensor::MoistureSensor(int pin1, int pin2, int sensorPin, int calibratio
 int MoistureSensor::readMoisture(long timeInMillis) {
 	long now = millis();
 	int value = 0;
-	Serial.print("Slope: ");
-	Serial.println(_slope);
 	int count = 0;
 	while ((millis() - now) < timeInMillis) {
 		setSensorPolarity(true);
