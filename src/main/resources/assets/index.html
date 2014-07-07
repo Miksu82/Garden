@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" ng-app="gardenApp">
+<head>
+<meta charset="utf-8">
+<title>Google Phone Gallery</title>
+<link rel="stylesheet"
+	href="bower_components/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="css/app.css">
+<script src="bower_components/angular/angular.js"></script>
+<script src="js/controllers.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="js/highcharts-ng.js"></script>
+<script src="js/highcharts/highcharts.js"></script>
+
+</head>
+<body ng-controller="GardenDataAll">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-2">
+				<!--Sidebar content-->
+
+				Search: <input ng-model="query">
+
+			</div>
+			<div class="col-md-10">
+				<highchart id="chart1" config="temperatureChart"></highchart>
+				<!--Body content-->
+				<p>This is body</p>
+				<p>Stuff {{response.householdLabel}}</p>
+				<ul class="temperature1Measurements">
+					<li
+						ng-repeat="measurement in temperature1Measurements track by $index | filter:query">
+						{{measurement}}</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
