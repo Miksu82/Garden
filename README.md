@@ -1,4 +1,4 @@
 Garden
 ======
 
-Arduidno Garden Project
+Arduino Garden Project
