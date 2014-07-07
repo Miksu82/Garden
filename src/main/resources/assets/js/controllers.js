@@ -4,11 +4,14 @@
 
 var gardenApp = angular.module('gardenApp', ["highcharts-ng"]);
 
-gardenApp.controller('GardenDataAll', function($scope, $http) {
-	$http.get('../garden/query/?hid=1').success(function(data) {
+function queryData($http, $scope, hid) {
+	var responsePromise = $http.get('../garden/query/?hid=' + hid);
+	
+	responsePromise.success(function(data) {
 		$scope.hid = data.hid;
 		$scope.response = data;
-
+		
+		console.log("length " + data);
 		var map = Array.prototype.map;
 
 		var temperature1 = map.call(data.measurements, function(item) { 
@@ -38,15 +41,6 @@ gardenApp.controller('GardenDataAll', function($scope, $http) {
 		$scope.temperatureSeries = [{"name": data.temperature1Label, "data": temperature1},
 		                            {"name": data.temperature2Label, "data": temperature2}];
 		
-		/*$scope.temperatureSeries = [{"name": data.temperature1Label, "data": [
-		                                                                      [Date.UTC(1986,2,6),1],
-		                                                                      [Date.UTC(1986,2,7),2]
-		                                                                      ]},
-		                            {"name": data.temperature2Label, "data": [
-		                                                                      [Date.UTC(1986,2,6),7],
-		                                                                      [Date.UTC(1986,2,7),6]
-		                                                                      ]}];
-*/
 		$scope.temperatureChart = {
 				options: {
 					chart: {
@@ -73,6 +67,19 @@ gardenApp.controller('GardenDataAll', function($scope, $http) {
 					}
 				}
 		}
+	});
+	
+	responsePromise.error(function(data) {
 
 	});
+}
+
+gardenApp.controller('GardenDataAll', function($scope, $http, $location) {
+	$scope.$watch(function() {
+		return $location.search();
+	}, function() {
+		$scope.temperatureChart = null;
+		queryData($http, $scope, ($location.search()).hid);
+    });
+	
 });
