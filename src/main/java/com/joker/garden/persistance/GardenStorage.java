@@ -26,8 +26,8 @@ public class GardenStorage {
 
 	private AmazonSimpleDBClient client;
 
-	public GardenStorage() {
-		BasicAWSCredentials credentials = new BasicAWSCredentials("AKIAJT2K3XXMLFEIL65Q", "LVVIn3UVzcygIdpH6tDoRXbSyoyuWsI5cte4r5Rq");
+	public GardenStorage(String awsAccessKey, String awsSecret) {
+		BasicAWSCredentials credentials = new BasicAWSCredentials(awsAccessKey, awsSecret);
 		client = new AmazonSimpleDBClient(credentials);
 	}
 
@@ -68,7 +68,7 @@ public class GardenStorage {
 			throw new IOException("Invalid sensor request response of size " + sensorItems.size());
 		}
 
-		Map<Integer, String> sensorMap = new HashMap<>();
+		Map<Integer, String> sensorMap = new HashMap<Integer, String>();
 		for (Item sensorItem : sensorItems) {
 			List<Attribute> sensorAttributes = sensorItem.getAttributes();
 			Map<String, String> attributeMap = convertAttributeListToMap(sensorAttributes);
@@ -105,12 +105,9 @@ public class GardenStorage {
 				query.append("'");
 			}
 
-			System.out.println(query);
-
 			dataRequest = new SelectRequest(query.toString());
 
 			if (dataResult != null) {  
-				System.out.println("Next token is " + dataResult.getNextToken());
 				dataRequest.setNextToken(dataResult.getNextToken());
 			}
 
@@ -152,7 +149,7 @@ public class GardenStorage {
 	}
 
 	private Map<String, String> convertAttributeListToMap(List<Attribute> attributes) {
-		Map<String, String> attributeMap = new HashMap<>();
+		Map<String, String> attributeMap = new HashMap<String, String>();
 		for (Attribute attribute : attributes) {
 			attributeMap.put(attribute.getName(), attribute.getValue());
 		}

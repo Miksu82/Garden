@@ -1,6 +1,7 @@
 package com.joker.garden;
 
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
@@ -20,14 +21,13 @@ public class GardenApplication extends Application<GardenConfiguration> {
 
 	
 	@Override
-	public void initialize(Bootstrap<GardenConfiguration> arg0) {
-		// TODO Auto-generated method stub
-		
+	public void initialize(Bootstrap<GardenConfiguration> bootstrap) {
+		bootstrap.addBundle(new AssetsBundle("/assets/", "/foo/", "index.html"));	
 	}
 
 	@Override
 	public void run(GardenConfiguration configuration, Environment environment) {
-	    final GardenResource resource = new GardenResource(new GardenStorage());
+	    final GardenResource resource = new GardenResource(new GardenStorage(configuration.getAwsAccessKey(), configuration.getAwsSecret()));
 	    final GardenHealthCheck healthCheck = new GardenHealthCheck();
 	    
 	    environment.jersey().register(resource);

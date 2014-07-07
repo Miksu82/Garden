@@ -82,7 +82,7 @@ public class GardenDataResponse {
 	
 	public void addMeasurement(GardenMeasurement measurement) {
 		if (measurements == null) {
-			measurements = new ArrayList<>();
+			measurements = new ArrayList<GardenMeasurement>();
 		}
 		
 		measurements.add(measurement);

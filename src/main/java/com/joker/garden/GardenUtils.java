@@ -34,7 +34,7 @@ public class GardenUtils {
 	public static <T> T populateBean(MultivaluedMap<String, String> data, Class<T> beanClass) throws Exception {
 		T bean = beanClass.newInstance();
 		Field[] fields = beanClass.getDeclaredFields();
-		Map<String,String> annotationMap = new HashMap<>();
+		Map<String,String> annotationMap = new HashMap<String, String>();
 		for (Field field : fields) {
 			QueryParam param = field.getAnnotation(QueryParam.class);
 			if (param != null) {
